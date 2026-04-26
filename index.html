@@ -52,14 +52,26 @@
 
 
                 </div>
-                <div id="3dDesignInfo" class="categoryContent smooth pageContentRevealOnLoad" data-content-title="3D Design">
-                    <div class="imageCrossFade pageContentCode" id="imageCrossFade"><img src="images\3D\Gremlin-resin-colour.png" width="1000"><img class="imageCrossFadeStartHidden" id="hiddenImage" src="images\3D\Gremlin-resin.png" width="1000"></div>
-                    <div class="text pageContentCode">Aenean molestie sem malesuada varius rutrum. Vestibulum gravida feugiat egestas. Ut porttitor eros at dui dapibus ornare. Sed consequat nibh in tristique tempor.
-                    Etiam tempus justo a metus pellentesque, at maximus justo bibendum. Nullam volutpat sem non nunc auctor porta. Vivamus vitae erat arcu. Pellentesque luctus sodales ullamcorper.
-                    Nunc turpis dui, fermentum in tellus vestibulum, sagittis blandit ex. Vestibulum ac consectetur elit, interdum malesuada est. Suspendisse ultrices, mi ut porta auctor, elit urna dapibus augue, ac pulvinar lacus velit vitae nibh.
-                    Aenean dictum fringilla ipsum vel vestibulum. Praesent at semper urna. Donec non augue vel enim maximus convallis et convallis quam. Sed in ante sapien.</div>
 
+                <div id="3dDesignInfo" class="categoryContent smooth pageContentRevealOnLoad" data-content-title="3D Design">
+                     <div class="Image360Shell">
+                            <div id="resBtns"><div id="setResolutionSDBtn" class="resBtns">SD</div><div id="setResolutionHDBtn" class="resBtns">HD</div><div id="setResolutionUHDBtn" class="resBtns">UHD</div>
+                        </div>
+                        <br>
+                        <div id="360-loading-message">Loading images... 0%</div>    
+                        <img id="viewer" class="pageContentRevealOnLoad">
+                    </div>
+                    
+                    
+                    <div class="text pageContentCode">
+                        Aenean molestie sem malesuada varius rutrum. Vestibulum gravida feugiat egestas. Ut porttitor eros at dui dapibus ornare. Sed consequat nibh in tristique tempor.
+                        Etiam tempus justo a metus pellentesque, at maximus justo bibendum. Nullam volutpat sem non nunc auctor porta. Vivamus vitae erat arcu. Pellentesque luctus sodales ullamcorper.
+                        Nunc turpis dui, fermentum in tellus vestibulum, sagittis blandit ex. Vestibulum ac consectetur elit, interdum malesuada est. Suspendisse ultrices, mi ut porta auctor, elit urna dapibus augue, ac pulvinar lacus velit vitae nibh.
+                        Aenean dictum fringilla ipsum vel vestibulum. Praesent at semper urna. Donec non augue vel enim maximus convallis et convallis quam. Sed in ante sapien.
+                    </div>
+                    <div class="imageCrossFade pageContentCode" id="imageCrossFade"><img src="images\3D\Gremlin-resin-colour.png"><img class="imageCrossFadeStartHidden" id="hiddenImage" src="images\3D\Gremlin-resin.png" ></div>
                 </div>
+
                 <div id="illustrationInfo" class="categoryContent smooth pageContentRevealOnLoad" data-content-title="Illustration">
 
                 </div>
@@ -76,5 +88,6 @@
             <div id="pageFooter"></div>
         </div>
         <script src="mainScript.js"></script>
+        <script src="https://raw.githubusercontent.com/OfLocksley/Features/31ef67ab8edf070f8106a44ee435c381a34ae704/360ImageCycleJS.js"></script>
     </body>
 </html>
