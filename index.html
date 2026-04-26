@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>OfLocksley Creative</title>
+    
+        <meta name="description" content="The work of Robin OfLocksley Ricketts">
+        <meta name="keywords" content="Photography, 3D Sculpting, Illustration, Web Design, Geelong, Victoria, Australia">
+        <meta name="author" content="Robin Ricketts">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="mainstyles.css">
+         
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+    </head>
+    <body onload="getAllContentTypes()">
+        <div id="pageContainer">
+            <div id="header">
+                <div id="pageLogo">
+                    <img src="images\Logo\OfLocksley Logo svg test.svg">
+                </div>
+                <div id="pageTitle">  
+                    <span>Page Title</span>              
+                    <div id="searchBar" class="smooth">
+                        <input type="text" placeholder="Search.." id="searchBarInput"><button type="submit" id="searchBtn"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                <div id="mainMenu" class="smooth">
+                    <div id="mainMenuList" class="smooth heightHiding">
+                    </div>
+                </div>
+                <div id="menuIcon"  onclick="menuChange(this)"> 
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </div>
+            </div>
+            <div id="pageContent">
+                <div id="photographyInfo" class="categoryContent smooth pageContentRevealOnLoad" data-content-title="Photography">
+                    <div class="text pageContentCode">
+                    Maecenas ac finibus nisl. Nunc libero lorem, dapibus vel iaculis id, rutrum et ex. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus maximus, felis sed vehicula facilisis, enim est aliquet eros, id suscipit dui nunc a ligula.
+                    Proin pharetra tincidunt pulvinar. Fusce ultrices laoreet justo sed sagittis. Praesent quis ipsum auctor, mollis felis vel, vehicula turpis. Ut non ante in dolor vulputate sodales. Pellentesque vehicula risus dui, a varius lorem porta non.
+                    Donec luctus auctor imperdiet. Aenean quis ante dictum, laoreet mi id, luctus nibh. Vestibulum varius, libero et pharetra sollicitudin, turpis metus eleifend orci, in semper lectus neque in nulla. Quisque consequat tellus in rutrum tempor.
+                    Maecenas pulvinar enim dolor, et aliquam nisl venenatis non. In elementum venenatis eros non lacinia. Quisque quis nulla in enim porta iaculis.
+
+                    Aenean molestie sem malesuada varius rutrum. Vestibulum gravida feugiat egestas. Ut porttitor eros at dui dapibus ornare. Sed consequat nibh in tristique tempor.
+                    Etiam tempus justo a metus pellentesque, at maximus justo bibendum. Nullam volutpat sem non nunc auctor porta. Vivamus vitae erat arcu. Pellentesque luctus sodales ullamcorper.
+                    Nunc turpis dui, fermentum in tellus vestibulum, sagittis blandit ex. Vestibulum ac consectetur elit, interdum malesuada est. Suspendisse ultrices, mi ut porta auctor, elit urna dapibus augue, ac pulvinar lacus velit vitae nibh.
+                    Aenean dictum fringilla ipsum vel vestibulum. Praesent at semper urna. Donec non augue vel enim maximus convallis et convallis quam. Sed in ante sapien.
+                    </div>
+                    <div class="image pageContentCode"><img src="images\collapsed-temple-005-c.jpg"></div>
+
+
+                </div>
+                <div id="3dDesignInfo" class="categoryContent smooth pageContentRevealOnLoad" data-content-title="3D Design">
+                    <div class="imageCrossFade pageContentCode" id="imageCrossFade"><img src="images\3D\Gremlin-resin-colour.png" width="1000"><img class="imageCrossFadeStartHidden" id="hiddenImage" src="images\3D\Gremlin-resin.png" width="1000"></div>
+                    <div class="text pageContentCode">Aenean molestie sem malesuada varius rutrum. Vestibulum gravida feugiat egestas. Ut porttitor eros at dui dapibus ornare. Sed consequat nibh in tristique tempor.
+                    Etiam tempus justo a metus pellentesque, at maximus justo bibendum. Nullam volutpat sem non nunc auctor porta. Vivamus vitae erat arcu. Pellentesque luctus sodales ullamcorper.
+                    Nunc turpis dui, fermentum in tellus vestibulum, sagittis blandit ex. Vestibulum ac consectetur elit, interdum malesuada est. Suspendisse ultrices, mi ut porta auctor, elit urna dapibus augue, ac pulvinar lacus velit vitae nibh.
+                    Aenean dictum fringilla ipsum vel vestibulum. Praesent at semper urna. Donec non augue vel enim maximus convallis et convallis quam. Sed in ante sapien.</div>
+
+                </div>
+                <div id="illustrationInfo" class="categoryContent smooth pageContentRevealOnLoad" data-content-title="Illustration">
+
+                </div>
+                <div id="graphicDesignInfo" class="categoryContent smooth pageContentRevealOnLoad" data-content-title="Graphic Design">
+
+                </div>
+                <div id="musicInfo" class="categoryContent smooth  pageContentRevealOnLoad" data-content-title="Music">
+
+                </div>
+                <div id="placesToBuyInfo" class="categoryContent smooth pageContentRevealOnLoad" data-content-title="Places To Buy">
+
+                </div>
+            </div>
+            <div id="pageFooter"></div>
+        </div>
+        <script src="mainScript.js"></script>
+    </body>
+</html>
