@@ -29,18 +29,20 @@ function populateMenu(item){
 
 function menuChange(x) {
   x.classList.toggle("change");
-  document.getElementById("mainMenuList").classList.toggle("heightHiding");
+  document.getElementById("mainMenuList").classList.toggle("mainMenuReveal");
+  document.getElementById("mainMenuList").classList.toggle("mainMenuHide");
 }
 
 function hoverSearchBar() {
-  document.getElementById("searchBar").classList.toggle("heightHiding");
+  document.getElementById("searchBar").classList.toggle("mainMenuReveal");
 }
 
 function pageContentSelected(x) {
   
   const getContentType = x.id.slice(0, -3)+"Info"; 
     menuIcon.classList.toggle("change");
-    document.getElementById("mainMenuList").classList.toggle("heightHiding");
+    document.getElementById("mainMenuList").classList.toggle("mainMenuReveal");
+    document.getElementById("mainMenuList").classList.toggle("mainMenuHide");
     document.querySelectorAll('.categoryContent').forEach(el => {
       const opacity = window.getComputedStyle(el).getPropertyValue("opacity");
       if (el.id == getContentType) {

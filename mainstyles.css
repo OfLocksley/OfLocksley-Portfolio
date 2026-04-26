@@ -131,6 +131,7 @@ img {
     height: calc(60px * 6);
     max-height: max-content;
     opacity: 1;
+    display: none;
 }
 
 .menuItem{
@@ -152,9 +153,12 @@ img {
     border-radius: 0px 0px 0px 0px;
 }
 
-.heightHiding{
-    height: 0px !important;
-    opacity: 0 !important;
+.mainMenuReveal{
+    animation: mainMenuReveal 0.5s ease-in-out 1 forwards both;
+}
+
+.mainMenuHide {
+    animation: mainMenuHide 0.5s ease-in-out 1 forwards both;
 }
 
 .widthHiding{
@@ -280,15 +284,17 @@ img {
     border-radius: 0px 10px 10px 0px;
 }
 
-#mainMenuList{
+#mainMenuList {
     position: absolute;
-    width: 100vw;
-    height: 100vh;
+    left: 0;
+    min-width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: max-content;
+    opacity: 1;
 }
 
 .menuItem{
-    width: 100vw
-    font-size: 1em;
     padding: 6px 0px 6px 0px;
 }
 
@@ -372,4 +378,49 @@ padding: 10px 5px 15px 5px;
     
     
 }
+}
+
+@keyframes mainMenuReveal {
+    0% {
+            opacity: 0;
+            display: none;
+        }
+    
+        1% {
+            display: flex;
+        }
+    
+        2% {
+            opacity: 0;
+        }
+    
+        100% {
+            display: flex;
+            opacity: 1;
+    
+        }
+    }
+
+@keyframes mainMenuHide {
+
+    0% {
+        display: flex;
+        opacity: 1;
+    }
+
+
+    98% {
+        opacity: 0;
+    }
+
+    99% {
+        display: flex;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+
+
+    }
 }
