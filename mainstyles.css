@@ -126,6 +126,10 @@ img {
 }
 
 #mainMenuList{
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
     min-width: max-content;
     max-width: fit-content;
     height: calc(60px * 6);
@@ -207,6 +211,7 @@ img {
 
 .Image360Shell{
     width: 100%;
+    text-align: center;
 
 }
 
@@ -218,6 +223,14 @@ img {
 
 .image{
     width: 55%;
+}
+
+#viewer {
+    touch-action: none;
+}
+
+#spin-images-loading-message {
+    display: none;
 }
 
 .imageCrossFade {
@@ -290,6 +303,10 @@ img {
 #mainMenuList {
     position: absolute;
     left: 0;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
     min-width: 100%;
     max-width: 100%;
     height: auto;
