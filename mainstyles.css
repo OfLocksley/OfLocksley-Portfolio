@@ -131,7 +131,6 @@ img {
     height: calc(60px * 6);
     max-height: max-content;
     opacity: 1;
-    display: none;
 }
 
 .menuItem{
@@ -153,12 +152,16 @@ img {
     border-radius: 0px 0px 0px 0px;
 }
 
+.mainMenuRevealOnLoad{
+    animation: mainMenuRevealOnLoad 0.5s ease-in-out 0 paused both;
+}
+
 .mainMenuReveal{
-    animation: mainMenuReveal 0.5s ease-in-out 1 forwards both;
+    animation: mainMenuReveal 0.5s ease-in-out 1 both;
 }
 
 .mainMenuHide {
-    animation: mainMenuHide 0.5s ease-in-out 1 forwards both;
+    animation: mainMenuHide 0.5s ease-in-out 1 both;
 }
 
 .widthHiding{
@@ -244,7 +247,7 @@ img {
   visibility: visible;
 }
 
-@media screen and (min-width: 600px){
+@media screen and (max-width: 600px){
 
 
 #pageLogo{
@@ -379,6 +382,27 @@ padding: 10px 5px 15px 5px;
     
 }
 }
+
+@keyframes mainMenuRevealOnLoad {
+    0% {
+            opacity: 0;
+            display: none;
+        }
+    
+        1% {
+            display: flex;
+        }
+    
+        2% {
+            opacity: 0;
+        }
+    
+        100% {
+            display: flex;
+            opacity: 1;
+    
+        }
+    }
 
 @keyframes mainMenuReveal {
     0% {
