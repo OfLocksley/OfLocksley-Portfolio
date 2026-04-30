@@ -29,8 +29,13 @@ function populateMenu(item){
 
 function menuChange(x) {
   x.classList.toggle("change");
+  if (document.getElementById("mainMenuList").classList.contains("mainMenuRevealOnLoad")){
+    document.getElementById("mainMenuList").classList.remove("mainMenuRevealOnLoad");
+    document.getElementById("mainMenuList").classList.toggle("mainMenuReveal");
+  } else{
   document.getElementById("mainMenuList").classList.toggle("mainMenuReveal");
   document.getElementById("mainMenuList").classList.toggle("mainMenuHide");
+  }
 }
 
 function hoverSearchBar() {

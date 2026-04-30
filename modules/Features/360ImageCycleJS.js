@@ -54,42 +54,39 @@
         const setResolutionHDBtn = document.getElementById("setResolutionHDBtn");
         const setResolutionUHDBtn = document.getElementById("setResolutionUHDBtn");
 
-        setResolutionSDBtn.addEventListener('click', () => {
+        
+        setResolutionSDBtn.addEventListener('click', async () => {
             viewer.classList = "pageContentHide";
             loadingEl.style.display = "block";
-            preloadImages(thirdResImages)
-            .then(images => console.log("All images loaded!", images))
-            .catch(err => console.error(err));
-            images = thirdResImages;
-            setResolution = "SD";
-            updateViewerSource();
+            
+            try {
+                await preloadImages(thirdResImages);  // ✅ Wait for preload to complete
+                images = thirdResImages;
+                setResolution = "SD";
+                updateViewerSource();
+            } catch(err) {
+                console.error(err);
+                loadingEl.innerText = "Failed to load images";
+            }
         });
 
-        setResolutionHDBtn.addEventListener('click', () => {
+        setResolutionHDBtn.addEventListener('click', async () => {
             viewer.classList = "pageContentHide";
             loadingEl.style.display = "block";
-            preloadImages(halfResImages)
-            .then(images => console.log("All images loaded!", images))
-            .catch(err => console.error(err));
-            images = halfResImages;
-            setResolution = "HD";
-            updateViewerSource();
-        });
-
-        setResolutionUHDBtn.addEventListener('click', () => {
-            viewer.classList = "pageContentHide";
-            loadingEl.style.display = "block";
-            preloadImages(fullResImages)
-            .then(images => console.log("All images loaded!", images))
-            .catch(err => console.error(err));
-            images = fullResImages;
-            setResolution = "UHD";
-            updateViewerSource();
+            
+            try {
+                await preloadImages(halfResImages);  // ✅ Wait for preload to complete
+                images = halfResImages;
+                setResolution = "HD";
+                updateViewerSource();
+            } catch(err) {
+                console.error(err);
+                loadingEl.innerText = "Failed to load images";
+            }
         });
 
         async function preloadImages(urls) {
-            
-
+            loadedCount = 0;
                 const promises = urls.map(url => {
                     loadedCount++;
                     const percentage = Math.round((loadedCount / urls.length) * 100);
@@ -100,7 +97,6 @@
                     img.onload = () => resolve(img);
                     img.onerror = () => reject(`Failed to load ${url}`);
 
-    
                     });
                 });
                 // Wait for all images to load
@@ -109,9 +105,9 @@
             }
 
            function updateViewerSource(){
-                    loadedCount = 0;
+                    currentImgIndex = imgIndex
                     document.getElementById('spin-images-loading-message').style.display = 'none';
-                    viewer.src = setResolution === "SD" ? thirdResImages[currentImgIndex] : setResolution === "HD" ? halfResImages[currentImgIndex] : setResolution === "UHD" ? fullResImages[currentImgIndex] : default360PlaceholderImage;
+                    viewer.src = setResolution === "SD" ? thirdResImages[currentImgIndex] : setResolution === "HD" ? halfResImages[currentImgIndex] : default360PlaceholderImage;
                     viewer.classList.remove("pageContentHide");
                     viewer.classList.add("pageContentReveal");
                     console.log(viewer.src);
