@@ -27,16 +27,23 @@ img {
     height: 100px;
     left: 5px;
     right: 5px;
-    z-index: 1000;
+    z-index: 400;
 
 }
 
-#resBtns {
+.resBtnsCase {
     display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.threedSculpt360Btn {
+    width: 70px;
 }
 
 .resBtns {
     width: 40px;
+    height: 22px;
     text-align: center;
     padding: 5px 5px 8px 5px;
     border-radius: 8px;
@@ -195,7 +202,7 @@ img {
     width: 100%;
     height: calc(100vh - 100px);
     margin: 0px auto;
-    z-index: 500;
+    z-index: 300;
     overflow: hidden scroll;
 }
 
@@ -203,33 +210,48 @@ img {
     font-size: 1.25em;
     color: #d0bde4;
     margin: 0px auto;
-    flex-direction: row;
+    justify-content: space-evenly;
     flex-wrap: wrap;
-    justify-content: space-around;
+    flex-direction: row;
+    align-content: center;
     align-items: center;
 }
 
-#threedSculpt {
+.threedGallery {
+    margin: 10px 5px 25px 5px;
     display: flex;
-    width: 65vw;
-    height: 30vh;
+    width: 20%;
+    height: 22vw;
+    max-height: fit-content;
     overflow: hidden;
     background-color: #cb000045;
     flex-direction: row;
-    align-content: stretch;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    justify-content: center;
+    flex-wrap: nowrap;
     align-items: flex-start;
+    transition: all 0.75s ease-in-out;
 }
 
-#threedSculptText {
+.threedTextImgsBtns {
+    padding: 10px 15px 25px 15px;
+    width: 50%
+}
+
+.threedSculptText {
     padding: 25px 0px 15px 0px;
-    width: 48%;
+    width: 100%;
 }
 
-.Image360Shell{
-    width: 100%;
+.Image360Shell {
+    position: fixed;
     text-align: center;
+    display: none;
+    background-color: #151a2ddb;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 700;
 }
 
 
