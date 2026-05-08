@@ -2,7 +2,11 @@ const allContentTypesList = [];
 const contentData = [];
 let contentColorFill = "#5d3b7e";
   console.log('Raw DNA: ',DNA);
-  //console.log('sections DNA: ',DNA["Sections"]);
+  console.log('ContentTypes: ',allContentTypesList);
+  console.log('sections DNA: ',DNA["Sections"]);
+  console.log(contentData)
+
+  
 
 function injectDNA() {
 
@@ -27,34 +31,30 @@ function injectDNA() {
     Object.entries(DNA["Sections"][Sections]).forEach(([project]) => {
       const sectionShell = document.getElementById(Sections.toLowerCase().split(' ').map((word, index) => { if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('')+"Shell");
       const sectionProject = document.createElement('div');
-      sectionProject.id = project.toLowerCase().split(' ').map((word, index) => {
-          if (index === 0) return word;
-          return word.charAt(0).toUpperCase() + word.slice(1);
-      }).join('');
+      sectionProject.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
       sectionProject.classList.add(project);
       sectionProject.dataset.projectTitle = project;
       sectionShell.appendChild(sectionProject);
 
-      //console.log(Sections,project);
       Object.entries(DNA["Sections"][Sections][project]).forEach(([content]) => {
-        const sectionProject = document.getElementById(project.toLowerCase().split(' ').map((word, index) => { if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join(''));
+        const sectionProject = document.getElementById(project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", ""));
         if (content === "Thumbnail") {
           const projectThumbnail = document.createElement('div');
 
-          projectThumbnail.id = project.toLowerCase().split(' ').map((word, index) => { if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('')+"Thumb";
+          projectThumbnail.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Thumb";
           projectThumbnail.classList.add("threedThumbnail");
           sectionProject.dataset.projectTitle = project;
           sectionProject.appendChild(projectThumbnail);
-          console.log(Sections,project,content);
+          
           const crossFadeImg = document.createElement('div');
-          crossFadeImg.id =  project.toLowerCase().split(' ').map((word, index) => { if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('')+"CrossFadeImg";
+          crossFadeImg.id =  project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"CrossFadeImg";
           crossFadeImg.classList = "imageCrossFade";
           crossFadeImg.dataset.projectTitle = project;
           const projectThumbnailFocusImg = document.createElement('img');
           const projectThumbnailUnfocusImg = document.createElement('img');
 
         Object.entries(DNA["Sections"][Sections][project][content]).forEach(([image]) => {
-          const projectThumbnail = document.getElementById(project.toLowerCase().split(' ').map((word, index) => { if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('')+"Thumb");
+          const projectThumbnail = document.getElementById(project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Thumb");
 
           if (image.includes("Focus")){
             projectThumbnailFocusImg.classList = "imageCrossFadeStartHidden";
@@ -65,7 +65,6 @@ function injectDNA() {
           }
         });
         
-        console.log(projectThumbnailUnfocusImg.src, projectThumbnailFocusImg.src);
         crossFadeImg.appendChild(projectThumbnailFocusImg);
         projectThumbnail.appendChild(crossFadeImg);
          /* <div id="ItPennywiseStatue3dSculptThumb" class="threedThumbnail" data-subject-title="It Pennywise Statue 3D Sculpt">
@@ -109,7 +108,7 @@ function hoverSearchBar() {
 
 function pageContentSelected(x) {
   
-  const getContentType = x.id.slice(0, -3)+"Info"; 
+  const getContentType = x.id.slice(0, -3)+"Shell"; 
     menuIcon.classList.toggle("change");
     document.getElementById("mainMenuList").classList.toggle("mainMenuReveal");
     document.getElementById("mainMenuList").classList.toggle("mainMenuHide");

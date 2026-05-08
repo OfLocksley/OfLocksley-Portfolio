@@ -9,7 +9,7 @@ const DNA = {
     }
   },
   "Sections": {
-    "3D": {
+    "3D Design": {
       "Gremlins-Cinema-Seat-Gremlin-Statue-3D-Sculpt": {
         "Image-Gallery": {},
         "Spins": {},
