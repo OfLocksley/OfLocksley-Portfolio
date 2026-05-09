@@ -20,11 +20,10 @@
                                                                                                                                                 */
         let imgIndex = 0;
         let images = [];
-        let fullResImages = [];
         let halfResImages = [];
         let thirdResImages = [];
         let setResolution = "";
-        const allRanges = [fullResImages, halfResImages, thirdResImages];
+        const allRanges = [halfResImages, thirdResImages];
         let isDragging = false;
         let isSpinning = false;
         let lastSpin = "counterClockwise";
@@ -35,10 +34,9 @@
         const default360PlaceholderImage = "images/3D/360s/placeholder-image-360.png";
 
         const baseName = "images/3D/360s/it-pennywise-mirrors-statue/Pennywise-statue-360-";
-        const fullResTurnsName = "full-res-";
         const halfResTurnsName = "half-res-";
         const thirdResTurnsName = "third-res-";
-        const resTurnNames = ["full-res-","half-res-","third-res-"];
+        const resTurnNames = ["half-res-","third-res-"];
         const extension = ".avif";
         const totalImages = 120;
         
@@ -52,7 +50,6 @@
         const viewer = document.getElementById("viewer");
         const setResolutionSDBtn = document.getElementById("setResolutionSDBtn");
         const setResolutionHDBtn = document.getElementById("setResolutionHDBtn");
-        const setResolutionUHDBtn = document.getElementById("setResolutionUHDBtn");
 
         
         setResolutionSDBtn.addEventListener('click', async () => {

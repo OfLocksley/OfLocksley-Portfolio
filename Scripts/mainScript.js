@@ -1,18 +1,21 @@
-const allContentTypesList = [];
-const contentData = [];
+const allContentTypesList = []
+const pageTitle = document.getElementById('pageTitle');
+const searchNpage = document.getElementById('searchNpage');
+const searchBarInput = document.getElementById('searchBarInput');
+const searchBtn = document.getElementById('searchBtn');
+let currentSection = "";
+let getContentType = "";
 let contentColorFill = "#5d3b7e";
-  console.log('Raw DNA: ',DNA);
-  console.log('ContentTypes: ',allContentTypesList);
+  //console.log('Raw DNA: ',DNA);
+  //console.clear();
+  //console.log('ContentSections: ',allContentTypesList);
   console.log('sections DNA: ',DNA["Sections"]);
-  console.log(contentData)
-
-  
 
 function injectDNA() {
 
   Object.entries(DNA["Sections"]).forEach(([Sections]) => {
     allContentTypesList.push(Sections);
-
+    sessionStorage.setItem("ContentSections", JSON.stringify(allContentTypesList));
     const menuDiv = document.createElement("div");
     menuDiv.setAttribute('onclick', 'pageContentSelected(this)');
     menuDiv.id = Sections.toLowerCase().split(' ').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('')+"btn";
@@ -74,6 +77,21 @@ function injectDNA() {
                             </div>
                         </div>*/
         } else if (content === "Spins") {
+          const projectSpins = document.createElement('div');
+          const projectSpinAmount = Object.entries(DNA["Sections"][Sections][project][content])
+          const totalImages = Object.keys(projectSpinAmount).length/2;
+          Object.entries(DNA["Sections"][Sections][project][content]).forEach(([image]) => {
+            if (image.src == "half-res-"){
+               images.push(halfResImages);
+               console.log(halfResImages)
+               //##########################up to here.############//
+            }
+          })
+          console.log(totalImages)
+          projectSpins.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Spins";
+          projectSpins.classList.add("imageSpins");
+          sectionProject.dataset.projectTitle = project;
+          sectionProject.appendChild(projectSpins);
 
         } else if (content === "Image-Gallery") {
 
@@ -84,12 +102,8 @@ function injectDNA() {
       });
     });
   })
+
 }
-    
-//function populateMenu(item){
-
-
-//}
 
 function menuChange(x) {
   x.classList.toggle("change");
@@ -106,39 +120,101 @@ function hoverSearchBar() {
   document.getElementById("searchBar").classList.toggle("mainMenuReveal");
 }
 
-function pageContentSelected(x) {
-  
-  const getContentType = x.id.slice(0, -3)+"Shell"; 
-    menuIcon.classList.toggle("change");
-    document.getElementById("mainMenuList").classList.toggle("mainMenuReveal");
-    document.getElementById("mainMenuList").classList.toggle("mainMenuHide");
-    document.querySelectorAll('.categoryContent').forEach(el => {
-      const opacity = window.getComputedStyle(el).getPropertyValue("opacity");
-      if (el.id == getContentType) {
-      el.classList.remove("pageContentRevealOnLoad")
-      el.classList.add("pageContentReveal");
-
-      }
-      if (parseFloat(opacity) === 1) {
-        el.classList.remove("pageContentReveal")
-        el.classList.add("pageContentHide");
-
-      }
-
-    });
-
+function updateSections() {
+  currentSection = sessionStorage.getItem("currentSection");
+  getContentType = currentSection.replace(/ /gm,"")+"Shell";
+  loadCurrentSection()
+  //console.clear()
+  //console.log('ContentSections: ',allContentTypesList);
+  //console.log(currentSection) 
+  //console.log(getContentType)
 }
 
+function pageContentSelected(x) {  
+      sessionStorage.setItem("currentSection", x.innerHTML);
+      updateSections();
+      menuIcon.classList.toggle("change");
+      document.getElementById("mainMenuList").classList.toggle("mainMenuReveal");
+      document.getElementById("mainMenuList").classList.toggle("mainMenuHide");    
+}
+
+function loadCurrentSection() {
+  document.querySelectorAll('.categoryContent').forEach(el => {
+        if (el.dataset.contentTitle === currentSection) {
+          
+          pageTitle.classList.add("titleSwapFadeHide")
+          el.classList.remove("pageContentRevealOnLoad")
+          el.classList.remove("pageContentHide");
+          el.classList.add("pageContentReveal");
+          setTimeout(() => {
+            pageTitle.classList.remove("titleSwapFadeHide")
+            pageTitle.innerHTML = currentSection;
+            pageTitle.classList.add("titleSwapFadeReveal");
+          }, 250);
+        }
+        if (el.dataset.contentTitle !== currentSection && el.classList.contains("pageContentReveal")) {
+          el.classList.remove("pageContentReveal")
+          el.classList.add("pageContentHide");
+        }
+    });
+}
+
+window.addEventListener('load', () => {
+    const url = new URL(window.location.href);
+    const urlHash = url.hash;
+    updateSections()
+    if (url.hash !== ""){
+    sessionStorage.setItem("currentSection", window.location.hash.slice(1).split(/(?<!\d)(?=[A-Z])/).join(' '));
+    updateSections();
+    url.hash = "";
+    window.location.replace(url.href);
+    }
+})
+
+window.addEventListener('hashchange', function() {
+  sessionStorage.setItem("currentSection", window.location.hash.slice(1).split(/(?<!\d)(?=[A-Z])/).join(' '));
+  updateSections();
+});
+
+window.addEventListener('beforeunload', function() {
+  sessionStorage.setItem("currentSection", "Home");
+})
+
+
+
+searchNpage.addEventListener('mouseenter', function(e) {
+  searchBarInput.classList.remove('shortSearchBar');
+  searchBarInput.classList.add('longSearchBar');
+  setTimeout(() => {
+    searchBtn.classList.remove('shortSearchBtn');
+    searchBtn.classList.add('longSearchBtn');
+    }, 250);
+  
+})
+
+searchNpage.addEventListener('mouseleave', function(e) {
+  searchBarInput.classList.add('shortSearchBar');
+  searchBarInput.classList.remove('longSearchBar');
+  setTimeout(() => {
+    searchBtn.classList.add('shortSearchBtn');
+    searchBtn.classList.remove('longSearchBtn')
+          }, 250);
+  
+
+})
+
+/*
 const pageContent = document.getElementById("pageContent");
 function crossFadeImageScroll() {
-  if (pageContent.scrollTop > 35) {
+  if (pageContent.scrollTop > 75 && pageContent.scrollTop < 800) {
     console.log("yes");
-    document.getElementById("hiddenImage").className = "imageCrossFadeIn";
+    document.getElementById("imageCrossFade").className = "imageCrossFadeIn";
   }
   
-  if (pageContent.scrollTop < 15 && document.getElementById("hiddenImage").className == "imageCrossFadeIn") {
-    document.getElementById("hiddenImage").className = "imageCrossFadeOut";
-  }
+  if (pageContent.scrollTop < 65 && document.getElementById("hiddenImage").className == "imageCrossFadeIn") {
+    document.getElementById("imageCrossFadeStartHidden").className = "imageCrossFadeOut";
+ }
 }
 
 pageContent.addEventListener('scroll', crossFadeImageScroll);
+*/
