@@ -23,66 +23,60 @@
         let halfResImages = [];
         let thirdResImages = [];
         let setResolution = "";
-        const allRanges = [halfResImages, thirdResImages];
         let isDragging = false;
         let isSpinning = false;
         let lastSpin = "counterClockwise";
         let startX;
         let currentImgIndex = 0;
         let loadedCount = 0;
-        const loadingEl = document.getElementById('spin-images-loading-message');
-        const default360PlaceholderImage = "images/3D/360s/placeholder-image-360.png";
 
-        const baseName = "images/3D/360s/it-pennywise-mirrors-statue/Pennywise-statue-360-";
-        const halfResTurnsName = "half-res-";
-        const thirdResTurnsName = "third-res-";
-        const resTurnNames = ["half-res-","third-res-"];
-        const extension = ".avif";
-        const totalImages = 120;
-        
-        for (let i = 1; i <= totalImages; i++) {
-            allRanges.forEach((resGroup, index) => {
-                resGroup.push(`${baseName}${resTurnNames[index]}${i.toString().padStart(4, '0')}${extension}`);
+    function spinLoader() {
+        let spinsViewer = "";
+        let loadingEl = "";
+        const setResolutionSDBtn = document.querySelectorAll('.SpinsSetResolutionSDBtn');
+        const setResolutionHDBtn = document.querySelectorAll('.SpinsSetResolutionHDBtn');
+
+        setResolutionSDBtn.forEach(el => {
+            
+            el.addEventListener('click', async(event) => {
+                if (el.dataset.projectTitle === el.previousElementSibling.dataset.projectTitle){
+                    const spinsViewer = event.target.previousElementSibling;
+                    const loadingEl = spinsViewer.previousElementSibling;
+                    spinsViewer.classList.add("pageContentHide");
+                    spinsViewer.style.display = "block";
+                    
+                    try {
+                        await preloadImages(thirdResImages, loadingEl);  // ✅ Wait for preload to complete
+                        images = thirdResImages;
+                        setResolution = "SD";
+                        updateViewerSource(spinsViewer, loadingEl);
+                    } catch(err) {
+                        console.error(err);
+                        loadingEl.innerText = "Failed to load images";
+                    }
+                    spinsBeDraggin(spinsViewer);
+                }
             });
-        }
-
-
-        const viewer = document.getElementById("viewer");
-        const setResolutionSDBtn = document.getElementById("setResolutionSDBtn");
-        const setResolutionHDBtn = document.getElementById("setResolutionHDBtn");
-
-        
-        setResolutionSDBtn.addEventListener('click', async () => {
-            viewer.classList = "pageContentHide";
-            loadingEl.style.display = "block";
             
-            try {
-                await preloadImages(thirdResImages);  // ✅ Wait for preload to complete
-                images = thirdResImages;
-                setResolution = "SD";
-                updateViewerSource();
-            } catch(err) {
-                console.error(err);
-                loadingEl.innerText = "Failed to load images";
-            }
-        });
+        })
+        setResolutionHDBtn.forEach(el => {        
+            el.addEventListener('click', async () => {
+                spinsViewer.classList = "pageContentHide";
+                loadingEl.style.display = "block";
+                
+                try {
+                    await preloadImages(halfResImages);  // ✅ Wait for preload to complete
+                    images = halfResImages;
+                    setResolution = "HD";
+                    updateViewerSource();
+                } catch(err) {
+                    console.error(err);
+                    loadingEl.innerText = "Failed to load images";
+                }
+            });
+        })
 
-        setResolutionHDBtn.addEventListener('click', async () => {
-            viewer.classList = "pageContentHide";
-            loadingEl.style.display = "block";
-            
-            try {
-                await preloadImages(halfResImages);  // ✅ Wait for preload to complete
-                images = halfResImages;
-                setResolution = "HD";
-                updateViewerSource();
-            } catch(err) {
-                console.error(err);
-                loadingEl.innerText = "Failed to load images";
-            }
-        });
-
-        async function preloadImages(urls) {
+        async function preloadImages(urls, loadingEl) {
             loadedCount = 0;
                 const promises = urls.map(url => {
                     loadedCount++;
@@ -96,29 +90,33 @@
 
                     });
                 });
-                // Wait for all images to load
                 return await Promise.all(promises);
                 
             }
 
-           function updateViewerSource(){
+           function updateViewerSource(spinsViewer, loadingEl){
                     currentImgIndex = imgIndex
-                    document.getElementById('spin-images-loading-message').style.display = 'none';
-                    viewer.src = setResolution === "SD" ? thirdResImages[currentImgIndex] : setResolution === "HD" ? halfResImages[currentImgIndex] : default360PlaceholderImage;
-                    viewer.classList.remove("pageContentHide");
-                    viewer.classList.add("pageContentReveal");
-                    console.log(viewer.src);
+                    loadingEl.style.display = 'none';
+                    spinsViewer.src = setResolution === "SD" ? thirdResImages[currentImgIndex] : setResolution === "HD" ? halfResImages[currentImgIndex] : default360PlaceholderImage;
+                    spinsViewer.classList.remove("pageContentHide");
+                    spinsViewer.classList.add("pageContentReveal");
+                    console.log(spinsViewer.src);
             }
             
 
-        viewer.addEventListener('pointerdown', (e) => {
-            isDragging = true;
-            startX = e.clientX;
-            startTime = Date.now();
-            e.preventDefault(); // Prevent default browser dragging
-            
-        });
+        document.querySelectorAll('.SpinsViewer').forEach(el => {        
+            el.addEventListener('pointerdown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                startTime = Date.now();
+                e.preventDefault(); // Prevent default browser dragging
+                
+            });
 
+        })
+        
+
+        function spinsBeDraggin(spinsViewer) {
         document.addEventListener('pointermove', (e) => {
             if (!isDragging) return;
             const currentX = e.clientX;
@@ -129,7 +127,8 @@
                     (imgIndex - 1 + images.length) % images.length : 
                     (imgIndex + 1) % images.length;
                     currentImgIndex = imgIndex;
-                viewer.src = images[imgIndex];
+                spinsViewer.src = images[imgIndex];
+                console.log("dragging");
                 startX = currentX; // Reset startX for next swap
                 if (isDragging === true && isSpinning === true) {    
                 isSpinning = isSpinning === true ? false : true;
@@ -139,6 +138,7 @@
             }
             
         });
+        }
 
         document.addEventListener('pointerup', () => {
             isDragging = false;
@@ -154,36 +154,41 @@
  ▎
 【 ᛗᚴ 360 Toggle Auto Module Feature 】 
                                                                                                                                                 */
+    
         let startTime;
         let intervalId;
-        viewer.addEventListener('click', () => {
-            const duration = Date.now() - startTime;
-            
-            if (duration < 200 && isDragging === false){
-                isSpinning = isSpinning === true ? false : true;
+        document.querySelectorAll('.SpinsViewer').forEach(el => {    
+            el.addEventListener('click', () => {
+                const duration = Date.now() - startTime;
+                const spinsViewer = el;
                 
-                clearInterval(intervalId);
-                }
-            
-            if (duration < 200 && isDragging === false && isSpinning === true) {
-                
-                    if (lastSpin === "counterClockwise") {
-                        intervalId = setInterval(() => {
-                                imgIndex = (imgIndex - 1 + images.length) % images.length;
-                            
-                        viewer.src = images[imgIndex];
-                            }, 50)
-                        } else if (lastSpin === "clockwise") {
-                            intervalId = setInterval(() => {
-                                imgIndex = (imgIndex + 1) % images.length;
-                            viewer.src = images[imgIndex];
-                            }, 50)
-                        }
-                    lastSpin = lastSpin === "counterClockwise" ? "clockwise" : "counterClockwise";
-                    console.log("last spin: " + lastSpin + "is spinning: " + isSpinning);
+                if (duration < 200 && isDragging === false){
+                    isSpinning = isSpinning === true ? false : true;
                     
-                } 
-            });
+                    clearInterval(intervalId);
+                    }
+                
+                if (duration < 200 && isDragging === false && isSpinning === true) {
+                    
+                        if (lastSpin === "counterClockwise") {
+                            intervalId = setInterval(() => {
+                                    imgIndex = (imgIndex - 1 + images.length) % images.length;
+                                
+                            spinsViewer.src = images[imgIndex];
+                                }, 50)
+                            } else if (lastSpin === "clockwise") {
+                                intervalId = setInterval(() => {
+                                    imgIndex = (imgIndex + 1) % images.length;
+                                spinsViewer.src = images[imgIndex];
+                                }, 50)
+                            }
+                        lastSpin = lastSpin === "counterClockwise" ? "clockwise" : "counterClockwise";
+                        console.log("last spin: " + lastSpin + "is spinning: " + isSpinning);
+                        
+                    } 
+                });
+            })
+        }
                                                                                                                                                 /*
 【 ᛗᚴ 360 Toggle Auto Module Feature 】
  ▎

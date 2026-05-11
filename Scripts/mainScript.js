@@ -70,29 +70,51 @@ function injectDNA() {
         
         crossFadeImg.appendChild(projectThumbnailFocusImg);
         projectThumbnail.appendChild(crossFadeImg);
-         /* <div id="ItPennywiseStatue3dSculptThumb" class="threedThumbnail" data-subject-title="It Pennywise Statue 3D Sculpt">
-                            <div class="imageCrossFade " id="ItPennywiseStatue3dSculptimageCrossFade" data-subject-title="It Pennywise Statue 3D Sculpt">
-                                <img src="Sections\3D\It-Pennywise-Statue-3D-Sculpt\Thumbnail\It-Pennywise-Statue-3D-Sculpt-Unfocus.avif">
-                                <img class="imageCrossFadeStartHidden" id="ItPennywiseStatue3dSculpthiddenImage" src="Sections\3D\It-Pennywise-Statue-3D-Sculpt\Thumbnail\It-Pennywise-Statue-3D-Sculpt-Focus.avif" >
-                            </div>
-                        </div>*/
+        
         } else if (content === "Spins") {
           const projectSpins = document.createElement('div');
+          projectSpins.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Spins";
+          const default360PlaceholderImage = "Universal-Images/menu-items/buttons/360-icon.avif";
+          const spinsLoadingMsg = document.createElement('div');
+          const viewer = document.createElement('img');
+          const setResolutionSDBtn = document.createElement('div');
+          const setResolutionHDBtn = document.createElement('div');
+          
+          spinsLoadingMsg.classList = "spin-images-loading-message";
+          viewer.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"SpinsViewer";
+          viewer.classList.add("SpinsViewer");
+          viewer.src = default360PlaceholderImage;
+          viewer.dataset.projectTitle = project;
+          setResolutionSDBtn.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"SpinsSetResolutionSDBtn";
+          setResolutionSDBtn.classList.add("SpinsSetResolutionSDBtn");
+          setResolutionSDBtn.innerHTML = "SD";
+          setResolutionSDBtn.dataset.projectTitle = project;
+          setResolutionHDBtn.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"SpinsSetResolutionHDBtn";
+          setResolutionHDBtn.classList.add("SpinsSetResolutionHDBtn");
+          setResolutionHDBtn.innerHTML = "HD";
+          setResolutionHDBtn.dataset.projectTitle = project;
+
           const projectSpinAmount = Object.entries(DNA["Sections"][Sections][project][content])
           const totalImages = Object.keys(projectSpinAmount).length/2;
           Object.entries(DNA["Sections"][Sections][project][content]).forEach(([image]) => {
-            if (image.src == "half-res-"){
-               images.push(halfResImages);
-               console.log(halfResImages)
-               //##########################up to here.############//
+
+            if (image.includes("-half-res-")){
+               halfResImages.push(`Sections/${Sections}/${project}/${content}/${image}`);
+               
+            } else if (image.includes("-third-res-")){
+              thirdResImages.push(`Sections/${Sections}/${project}/${content}/${image}`);
             }
           })
-          console.log(totalImages)
-          projectSpins.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Spins";
+          
+          
           projectSpins.classList.add("imageSpins");
           sectionProject.dataset.projectTitle = project;
+          projectSpins.appendChild(spinsLoadingMsg);
+          projectSpins.appendChild(viewer);
+          projectSpins.appendChild(setResolutionSDBtn);
+          projectSpins.appendChild(setResolutionHDBtn);
           sectionProject.appendChild(projectSpins);
-
+          spinLoader();
         } else if (content === "Image-Gallery") {
 
         }
@@ -104,6 +126,8 @@ function injectDNA() {
   })
 
 }
+
+
 
 function menuChange(x) {
   x.classList.toggle("change");
