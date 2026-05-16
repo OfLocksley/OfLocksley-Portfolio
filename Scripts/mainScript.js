@@ -3,6 +3,7 @@ const pageTitle = document.getElementById('pageTitle');
 const searchNpage = document.getElementById('searchNpage');
 const searchBarInput = document.getElementById('searchBarInput');
 const searchBtn = document.getElementById('searchBtn');
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 let currentSection = "";
 let getContentType = "";
 let contentColorFill = "#5d3b7e";
@@ -77,6 +78,9 @@ function injectDNA() {
           const default360PlaceholderImage = "Universal-Images/menu-items/buttons/360-icon.avif";
           const spinsLoadingMsg = document.createElement('div');
           const viewer = document.createElement('img');
+          const closeSpinTheater = document.createElement('div');
+          const spinTopMenu = document.createElement('div');
+          const spinTheater = document.createElement('div');
           const setResolutionSDBtn = document.createElement('div');
           const setResolutionHDBtn = document.createElement('div');
           
@@ -85,12 +89,22 @@ function injectDNA() {
           viewer.classList.add("SpinsViewer");
           viewer.src = default360PlaceholderImage;
           viewer.dataset.projectTitle = project;
+          spinTheater.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"spinTheater";
+          spinTheater.classList = "shadowFocus";
+          spinTheater.dataset.projectTitle = project;
+          spinTopMenu.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"spinTopMenu";
+          spinTopMenu.classList = "spinTopMenu";
+          spinTopMenu.dataset.projectTitle = project;
+          closeSpinTheater.innerHTML = "X";
+          closeSpinTheater.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"closeSpinTheater";
+          closeSpinTheater.classList = "closeSpinTheater";
+          closeSpinTheater.dataset.projectTitle = project;
           setResolutionSDBtn.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"SpinsSetResolutionSDBtn";
-          setResolutionSDBtn.classList.add("SpinsSetResolutionSDBtn");
+          setResolutionSDBtn.classList.add("SpinsSetResolutionSDBtn", "resBtns");
           setResolutionSDBtn.innerHTML = "SD";
           setResolutionSDBtn.dataset.projectTitle = project;
           setResolutionHDBtn.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"SpinsSetResolutionHDBtn";
-          setResolutionHDBtn.classList.add("SpinsSetResolutionHDBtn");
+          setResolutionHDBtn.classList.add("SpinsSetResolutionHDBtn", "resBtns");
           setResolutionHDBtn.innerHTML = "HD";
           setResolutionHDBtn.dataset.projectTitle = project;
 
@@ -109,21 +123,57 @@ function injectDNA() {
           
           projectSpins.classList.add("imageSpins");
           sectionProject.dataset.projectTitle = project;
-          projectSpins.appendChild(spinsLoadingMsg);
-          projectSpins.appendChild(viewer);
-          projectSpins.appendChild(setResolutionSDBtn);
-          projectSpins.appendChild(setResolutionHDBtn);
+          spinTopMenu.appendChild(setResolutionSDBtn);
+          spinTopMenu.appendChild(setResolutionHDBtn);
+          spinTopMenu.appendChild(closeSpinTheater);
+          spinTheater.appendChild(spinTopMenu);
+          spinTheater.appendChild(spinsLoadingMsg);
+          spinTheater.appendChild(viewer);
+          projectSpins.appendChild(spinTheater);
           sectionProject.appendChild(projectSpins);
           spinLoader();
         } else if (content === "Image-Gallery") {
 
         }
-
-      //console.log(Sections,project,content);
-
+        
+         
+        //console.log(Sections,project,content);
+        
       });
     });
   })
+
+   document.querySelectorAll(".threedThumbnail").forEach(el => {
+            
+          el.addEventListener('pointerover', (e) => {
+            const hiddenThumb = e.target;            
+                  hiddenThumb.style.opacity = 1;            
+          }) 
+
+          el.addEventListener('pointerout', (e) => {
+            const hiddenThumb = e.target;            
+                  hiddenThumb.style.opacity = 0;            
+          })
+          
+          el.addEventListener('pointerdown', (e) => {
+            const thumbP = e.target.parentElement.parentElement;
+            const spinsp = thumbP.previousElementSibling;
+            const shadowTheater = spinsp.firstElementChild;
+            shadowTheater.style.display = "flex";
+            console.log(shadowTheater);
+
+          })
+
+          })
+
+    document.querySelectorAll(".closeSpinTheater").forEach(el => {
+          
+          el.addEventListener('pointerdown', (e) => {
+            const shadowTheater = e.target.parentElement.parentElement;
+            shadowTheater.style.display = "none";
+          })
+
+          })
 
 }
 

@@ -30,6 +30,9 @@
         let currentImgIndex = 0;
         let loadedCount = 0;
 
+        let dragThrottle = false;
+        let pendingImageIndex = null;
+
     function spinLoader() {
         let spinsViewer = "";
         let loadingEl = "";
@@ -39,9 +42,9 @@
         setResolutionSDBtn.forEach(el => {
             
             el.addEventListener('click', async(event) => {
-                if (el.dataset.projectTitle === el.previousElementSibling.dataset.projectTitle){
-                    const spinsViewer = event.target.previousElementSibling;
-                    const loadingEl = spinsViewer.previousElementSibling;
+                if (el.dataset.projectTitle === el.nextElementSibling.dataset.projectTitle){
+                    const loadingEl = event.target.parentElement.nextElementSibling;
+                    const spinsViewer = loadingEl.nextElementSibling;
                     spinsViewer.classList.add("pageContentHide");
                     spinsViewer.style.display = "block";
                     
@@ -103,16 +106,44 @@
                     console.log(spinsViewer.src);
             }
             
+            let startTime;
+            let endTime;
+        document.querySelectorAll('.SpinsViewer').forEach(el => {   
+            
+            if (isMobile) {
+                            el.addEventListener('touchstart', (e) => {
+                                isDragging = true;
+                                startX = e.touches[0].clientX;
+                                startTime = Date.now();
+                                e.preventDefault();
+                                console.log("touch started", startTime);
+                            });
 
-        document.querySelectorAll('.SpinsViewer').forEach(el => {        
-            el.addEventListener('pointerdown', (e) => {
-                isDragging = true;
-                startX = e.clientX;
-                startTime = Date.now();
-                e.preventDefault(); // Prevent default browser dragging
-                
-            });
+                            el.addEventListener('touchend', (e) => {
+                                isDragging = false;
+                                endTime = Date.now();
+                                console.log("touch ended", endTime);
+                                autoSpins(el, startTime, endTime);
+                            })
+                } else { 
+                            el.addEventListener('pointerdown', (e) => {
+                                isDragging = true;
+                                startX = e.clientX;
+                                startTime = Date.now();
+                                e.preventDefault()
+                                console.log("pointer Down");
+                            }); 
+                            document.addEventListener('pointerup', () => {
+                                isDragging = false;
+                                endTime = Date.now();
+                                console.log("pointer Up");
+                            });
 
+                            el.addEventListener('click', (e) => {
+                        autoSpins(el, startTime, endTime);
+                        }); 
+                } 
+            
         })
         
 
@@ -130,20 +161,25 @@
                 spinsViewer.src = images[imgIndex];
                 console.log("dragging");
                 startX = currentX; // Reset startX for next swap
-                if (isDragging === true && isSpinning === true) {    
-                isSpinning = isSpinning === true ? false : true;
-                clearInterval(intervalId);
-                console.log("stop");
-                }
-            }
-            
-        });
+                if (!dragThrottle) {
+                            dragThrottle = true;
+                            requestAnimationFrame(() => {
+                                spinsViewer.src = images[imgIndex];
+                                dragThrottle = false;
+                            });
+                        }
+                        
+                        if (isDragging === true && isSpinning === true) {    
+                            isSpinning = false;
+                            clearInterval(intervalId);
+                        }
+                    }
+                    
+                    
+                });
+                
         }
-
-        document.addEventListener('pointerup', () => {
-            isDragging = false;
-                            
-        });
+        
                                                                                                                                                 /*
 【 ᛗᚴ 360 click and Drag Module Feature 】
  ▎
@@ -155,16 +191,24 @@
 【 ᛗᚴ 360 Toggle Auto Module Feature 】 
                                                                                                                                                 */
     
-        let startTime;
-        let intervalId;
-        document.querySelectorAll('.SpinsViewer').forEach(el => {    
-            el.addEventListener('click', () => {
-                const duration = Date.now() - startTime;
+
+            let intervalId;
+            function autoSpins(el, startTime, endTime) {
+
+                let duration;
+
+                if (isMobile){
+                    duration = endTime - startTime;
+                } else {
+                duration = Date.now() - startTime;
+            }
                 const spinsViewer = el;
+
+                console.log(duration);
                 
                 if (duration < 200 && isDragging === false){
                     isSpinning = isSpinning === true ? false : true;
-                    
+                    console.log("click drag while spinning reset");
                     clearInterval(intervalId);
                     }
                 
@@ -186,9 +230,9 @@
                         console.log("last spin: " + lastSpin + "is spinning: " + isSpinning);
                         
                     } 
-                });
-            })
-        }
+                }        
+            
+    }
                                                                                                                                                 /*
 【 ᛗᚴ 360 Toggle Auto Module Feature 】
  ▎
