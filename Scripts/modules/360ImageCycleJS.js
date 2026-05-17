@@ -42,11 +42,12 @@
         setResolutionSDBtn.forEach(el => {
             
             el.addEventListener('click', async(event) => {
-                if (el.dataset.projectTitle === el.nextElementSibling.dataset.projectTitle){
+                if (el.dataset.projectTitle === el.parentElement.dataset.projectTitle){
                     const loadingEl = event.target.parentElement.nextElementSibling;
                     const spinsViewer = loadingEl.nextElementSibling;
                     spinsViewer.classList.add("pageContentHide");
                     spinsViewer.style.display = "block";
+                    console.log("element", el.dataset.projectTitle)
                     
                     try {
                         await preloadImages(thirdResImages, loadingEl);  // ✅ Wait for preload to complete

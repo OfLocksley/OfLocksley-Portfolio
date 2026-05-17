@@ -47,8 +47,9 @@ function injectDNA() {
 
           projectThumbnail.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Thumb";
           projectThumbnail.classList.add("threedThumbnail");
+          projectThumbnail.dataset.projectTitle = project;
           sectionProject.dataset.projectTitle = project;
-          sectionProject.appendChild(projectThumbnail);
+          sectionProject.prepend(projectThumbnail);
           
           const crossFadeImg = document.createElement('div');
           crossFadeImg.id =  project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"CrossFadeImg";
@@ -75,6 +76,7 @@ function injectDNA() {
         } else if (content === "Spins") {
           const projectSpins = document.createElement('div');
           projectSpins.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Spins";
+          projectSpins.dataset.projectTitle = project;
           const default360PlaceholderImage = "Universal-Images/menu-items/buttons/360-icon.avif";
           const spinsLoadingMsg = document.createElement('div');
           const viewer = document.createElement('img');
@@ -133,7 +135,24 @@ function injectDNA() {
           sectionProject.appendChild(projectSpins);
           spinLoader();
         } else if (content === "Image-Gallery") {
+          const projectImageGalleryContainer = document.createElement('div');
+          const projectImageGalleryViewFinder = document.createElement('div');
+          projectImageGalleryContainer.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"GalleryContainer";
+          projectImageGalleryContainer.classList.add('imageGalleryContainer');
+          projectImageGalleryContainer.dataset.projectTitle = project;
+          projectImageGalleryViewFinder.classList.add("ImageGalleryViewFinder");
+          projectImageGalleryViewFinder.dataset.projectTitle = project;
 
+          Object.entries(DNA["Sections"][Sections][project][content]).forEach(([image]) => {
+            const projectImage = document.createElement('img')
+            projectImage.src = `Sections/${Sections}/${project}/${content}/${image}`;
+            projectImage.width = 100;
+            projectImageGalleryContainer.append(projectImage);
+
+          })
+
+        projectImageGalleryContainer.appendChild(projectImageGalleryViewFinder);
+        sectionProject.appendChild(projectImageGalleryContainer);
         }
         
          
@@ -145,25 +164,33 @@ function injectDNA() {
 
    document.querySelectorAll(".threedThumbnail").forEach(el => {
             
-          el.addEventListener('pointerover', (e) => {
-            const hiddenThumb = e.target;            
-                  hiddenThumb.style.opacity = 1;            
+    const targetDataset = el.parentElement.dataset.projectTitle;
+    const targetImage = el.firstChild;
+
+          targetImage.addEventListener('pointerover', (e) => {
+            const hiddenThumb = e.target;
+                  hiddenThumb.style.opacity = 1;
+                  //console.log(hiddenThumb)      
+            
           }) 
 
-          el.addEventListener('pointerout', (e) => {
+          targetImage.addEventListener('pointerout', (e) => {
             const hiddenThumb = e.target;            
-                  hiddenThumb.style.opacity = 0;            
+                  hiddenThumb.style.opacity = 0;      
+                  
           })
           
-          el.addEventListener('pointerdown', (e) => {
+          targetImage.addEventListener('pointerup', (e) => {
             const thumbP = e.target.parentElement.parentElement;
-            const spinsp = thumbP.previousElementSibling;
-            const shadowTheater = spinsp.firstElementChild;
-            shadowTheater.style.display = "flex";
+            console.log(thumbP);
+            const sP = getNextElementByClass(thumbP, 'imageSpins');
+            console.log(sP);
+            const shadowTheater = sP.firstChild;
             console.log(shadowTheater);
-
+            shadowTheater.style.display = "flex";
+          
           })
-
+        
           })
 
     document.querySelectorAll(".closeSpinTheater").forEach(el => {
@@ -276,6 +303,19 @@ searchNpage.addEventListener('mouseleave', function(e) {
   
 
 })
+
+function getNextElementByClass(element, className) {
+  let next = element.nextElementSibling;
+  
+  while (next) {
+    if (next.classList.contains(className)) {
+      return next;
+    }
+    next = next.nextElementSibling;
+  }
+  return null; // No matching element found
+}
+
 
 /*
 const pageContent = document.getElementById("pageContent");
