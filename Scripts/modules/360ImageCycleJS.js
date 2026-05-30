@@ -20,29 +20,38 @@
                                                                                                                                                 */
         let imgIndex = 0;
         let images = [];
-        let halfResImages = [];
-        let thirdResImages = [];
         let setResolution = "";
         let isDragging = false;
         let isSpinning = false;
         let lastSpin = "counterClockwise";
         let startX;
         let currentImgIndex = 0;
-        let loadedCount = 0;
+        let loadedCount = 0
+        let startTime;
+        let endTime;
+        let currentViewer;
 
         let dragThrottle = false;
         let pendingImageIndex = null;
 
-    function spinLoader() {
-        let spinsViewer = "";
+    function spinLoader(viewer) {
+        let spinsViewer = viewer;
         let loadingEl = "";
+        let currentProject;
         const setResolutionSDBtn = document.querySelectorAll('.SpinsSetResolutionSDBtn');
         const setResolutionHDBtn = document.querySelectorAll('.SpinsSetResolutionHDBtn');
 
+        
         setResolutionSDBtn.forEach(el => {
             
-            el.addEventListener('click', async(event) => {
-                if (el.dataset.projectTitle === el.parentElement.dataset.projectTitle){
+            el.addEventListener('pointerup', async(event) => {
+                if (el.dataset.projectTitle === event.currentTarget.parentElement.dataset.projectTitle){
+                    
+                    imgIndex = 0;
+                    images = [];
+                    currentImgIndex = 0;
+                    currentViewer = event.currentTarget;
+                    const projectName = el.dataset.projectTitle;
                     const loadingEl = event.target.parentElement.nextElementSibling;
                     const spinsViewer = loadingEl.nextElementSibling;
                     spinsViewer.classList.add("pageContentHide");
@@ -50,16 +59,22 @@
                     console.log("element", el.dataset.projectTitle)
                     
                     try {
-                        await preloadImages(thirdResImages, loadingEl);  // ✅ Wait for preload to complete
-                        images = thirdResImages;
+                        await preloadImages(allProjectSpins[projectName]["thirdResImages"], loadingEl); 
+                        images = allProjectSpins[projectName]["thirdResImages"];
                         setResolution = "SD";
-                        updateViewerSource(spinsViewer, loadingEl);
+                        updateViewerSource(spinsViewer, loadingEl, allProjectSpins[projectName].thirdResImages);
                     } catch(err) {
                         console.error(err);
                         loadingEl.innerText = "Failed to load images";
                     }
-                    spinsBeDraggin(spinsViewer);
-                }
+                    spinsBeDraggin(spinsViewer, currentViewer);
+                } 
+                
+                /*else if (el.dataset.projectTitle !== el.parentElement.dataset.projectTitle){
+                    const loadingEl = event.target.parentElement.nextElementSibling;
+                    const spinsViewer = loadingEl.nextElementSibling;
+                    spinsViewer.classList.remove("pageContentHide");
+                }*/
             });
             
         })
@@ -69,7 +84,7 @@
                 loadingEl.style.display = "block";
                 
                 try {
-                    await preloadImages(halfResImages);  // ✅ Wait for preload to complete
+                    await preloadImages(halfResImages);
                     images = halfResImages;
                     setResolution = "HD";
                     updateViewerSource();
@@ -98,7 +113,8 @@
                 
             }
 
-           function updateViewerSource(spinsViewer, loadingEl){
+           function updateViewerSource(spinsViewer, loadingEl, thirdResImages){
+            if (spinsViewer.dataset.projectTitle === viewer.parentElement.dataset.projectTitle){
                     currentImgIndex = imgIndex
                     loadingEl.style.display = 'none';
                     spinsViewer.src = setResolution === "SD" ? thirdResImages[currentImgIndex] : setResolution === "HD" ? halfResImages[currentImgIndex] : default360PlaceholderImage;
@@ -106,49 +122,59 @@
                     spinsViewer.classList.add("pageContentReveal");
                     console.log(spinsViewer.src);
             }
+            }
             
-            let startTime;
-            let endTime;
-        document.querySelectorAll('.SpinsViewer').forEach(el => {   
+
+
+        //document.querySelectorAll('.SpinsViewer').forEach(el => {   
             
             if (isMobile) {
-                            el.addEventListener('touchstart', (e) => {
+                            viewer.addEventListener('touchstart', (e) => {
                                 isDragging = true;
                                 startX = e.touches[0].clientX;
                                 startTime = Date.now();
                                 e.preventDefault();
-                                console.log("touch started", startTime);
                             });
 
-                            el.addEventListener('touchend', (e) => {
+                            viewer.addEventListener('touchend', (e) => {
                                 isDragging = false;
                                 endTime = Date.now();
-                                console.log("touch ended", endTime);
-                                autoSpins(el, startTime, endTime);
+                                autoSpins(viewer, startTime, endTime);
                             })
                 } else { 
-                            el.addEventListener('pointerdown', (e) => {
+                            viewer.addEventListener('pointerdown', (e) => {
+                                if (viewer.dataset.projectTitle === e.currentTarget.dataset.projectTitle) {
+                                e.preventDefault()
                                 isDragging = true;
+                                currentViewer = e.currentTarget;
                                 startX = e.clientX;
                                 startTime = Date.now();
-                                e.preventDefault()
-                                console.log("pointer Down");
+                                //console.log(currentProject);
+                                //console.log("Drag", viewer, currentViewer.src);
+                                if (currentViewer.dataset.projectTitle === currentProject) {
+                                spinsBeDraggin(viewer, currentViewer);
+                                
+                                }
+                                }
                             }); 
-                            document.addEventListener('pointerup', () => {
+                            viewer.parentElement.addEventListener('pointerup', () => {
                                 isDragging = false;
                                 endTime = Date.now();
-                                console.log("pointer Up");
+                                //autoSpins(el, startTime, endTime);
+                                
                             });
-
-                            el.addEventListener('click', (e) => {
-                        autoSpins(el, startTime, endTime);
+                            viewer.addEventListener('click', (e) => {
+                                if (currentViewer.dataset.projectTitle === e.target.dataset.projectTitle) {
+                                    autoSpins(currentViewer, startTime, endTime);
+                                }
                         }); 
                 } 
-            
-        })
+
+        //})
         
 
-        function spinsBeDraggin(spinsViewer) {
+        function spinsBeDraggin(viewer, currentViewer) {
+            if (viewer.dataset.projectTitle === currentViewer.dataset.projectTitle) {
         document.addEventListener('pointermove', (e) => {
             if (!isDragging) return;
             const currentX = e.clientX;
@@ -159,13 +185,13 @@
                     (imgIndex - 1 + images.length) % images.length : 
                     (imgIndex + 1) % images.length;
                     currentImgIndex = imgIndex;
-                spinsViewer.src = images[imgIndex];
-                console.log("dragging");
+                viewer.src = images[imgIndex];
+                console.log("dragging", viewer, currentProject);
                 startX = currentX; // Reset startX for next swap
                 if (!dragThrottle) {
                             dragThrottle = true;
                             requestAnimationFrame(() => {
-                                spinsViewer.src = images[imgIndex];
+                                viewer.src = images[imgIndex];
                                 dragThrottle = false;
                             });
                         }
@@ -175,10 +201,8 @@
                             clearInterval(intervalId);
                         }
                     }
-                    
-                    
                 });
-                
+        }
         }
         
                                                                                                                                                 /*
@@ -209,7 +233,6 @@
                 
                 if (duration < 200 && isDragging === false){
                     isSpinning = isSpinning === true ? false : true;
-                    console.log("click drag while spinning reset");
                     clearInterval(intervalId);
                     }
                 

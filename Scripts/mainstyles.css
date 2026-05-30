@@ -33,6 +33,7 @@ img {
 
 .threedThumbnail {
     width: fit-content;
+    cursor: pointer;
 }
 
 .resBtnsCase {
@@ -83,6 +84,11 @@ img {
     align-content: flex-start;
     align-items: flex-start;
     padding: 10px 5px 15px 5px;
+    
+}
+
+.disableClicks {
+    pointer-events: none;
 }
 
 .spinTopMenu {
