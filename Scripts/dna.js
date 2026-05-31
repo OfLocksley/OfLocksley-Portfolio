@@ -553,6 +553,10 @@ const DNA = {
             "Stevensons-Falls-002.jpg": null,
             "Stevensons-Falls-003.png": null,
             "Stevensons-Falls-004.png": null
+          },
+          "Thumbnail": {
+            "Stevensons-Falls-Focus.png": null,
+            "Stevensons-Falls-Unfocus.png": null
           }
         }
       },

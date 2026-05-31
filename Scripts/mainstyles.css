@@ -31,9 +31,23 @@ img {
 
 }
 
-.threedThumbnail {
+.idleProject {
+    width: 20%;
+    min-width: fit-content;
+    background-image: linear-gradient(90deg, #2d005100, #2d005100);
+    box-shadow: 0 0 0px 0px #00000000;
+}
+
+.projectThumbnail {
     width: fit-content;
     cursor: pointer;
+}
+
+.goBig {
+    width: 100%;
+    background-image: linear-gradient(90deg, #29004b, #2d005100 15%, #2d005100 85%, #29004b);
+    box-shadow: 0 0 100px 10px #000;
+    min-width: fit-content;
 }
 
 .resBtnsCase {
@@ -99,11 +113,28 @@ img {
 }
 
 .imageGalleryContainer {
+    display: flex;
     width: 100%;
-    max-width: 50vw;
-    height: 250px;
-    max-height: 50vw;
+    height: auto;
+    max-height: 25vh;
     overflow: hidden;
+    white-space: nowrap;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start
+}
+
+.notBeingViewed {
+    width: 0%;
+    height: 0%;
+    max-width: 0;
+}
+
+.beingViewed {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
 }
 
 #pageLogo{
@@ -305,7 +336,7 @@ img {
     font-size: 1.25em;
     color: #d0bde4;
     margin: 0px auto;
-    justify-content: space-evenly;
+    justify-content: left;
     flex-wrap: wrap;
     flex-direction: row;
     align-content: center;

@@ -47,8 +47,8 @@ function injectDNA() {
         const sectionShell = document.getElementById(Sections.toLowerCase().split('-').map((word, index) => { if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('')+"Shell");
         const sectionProject = document.createElement('div');
         sectionProject.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
-        //sectionProject.classList.add(project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Class");
-        sectionProject.dataset.projectTitle = project;
+        sectionProject.classList.add("smooth", "idleProject");
+        sectionProject.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
         sectionShell.appendChild(sectionProject);
         
         Object.entries(DNA["Sections"][Sections][SubSection][project]).forEach(([content]) => {
@@ -58,15 +58,15 @@ function injectDNA() {
             const projectThumbnail = document.createElement('div');
 
             projectThumbnail.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Thumb";
-            projectThumbnail.classList.add("threedThumbnail");
-            projectThumbnail.dataset.projectTitle = project;
-            sectionProject.dataset.projectTitle = project;
+            projectThumbnail.classList.add("projectThumbnail");
+            projectThumbnail.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
+            sectionProject.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             sectionProject.prepend(projectThumbnail);
             
             const crossFadeImg = document.createElement('div');
             crossFadeImg.id =  project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"CrossFadeImg";
             crossFadeImg.classList = "imageCrossFade";
-            crossFadeImg.dataset.projectTitle = project;
+            crossFadeImg.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             const projectThumbnailFocusImg = document.createElement('img');
             const projectThumbnailUnfocusImg = document.createElement('img');
 
@@ -88,7 +88,7 @@ function injectDNA() {
           } if (content === "Spins") {
             const projectSpins = document.createElement('div');
             projectSpins.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Spins";
-            projectSpins.dataset.projectTitle = project;
+            projectSpins.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             const default360PlaceholderImage = "Universal-Images/menu-items/buttons/360-icon.avif";
             const spinsLoadingMsg = document.createElement('div');
             const viewer = document.createElement('img');
@@ -103,25 +103,25 @@ function injectDNA() {
             viewer.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"SpinsViewer";
             viewer.classList.add("SpinsViewer");
             viewer.src = default360PlaceholderImage;
-            viewer.dataset.projectTitle = project;
+            viewer.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             spinTheater.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"spinTheater";
             spinTheater.classList = "shadowFocus";
-            spinTheater.dataset.projectTitle = project;
+            spinTheater.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             spinTopMenu.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"spinTopMenu";
             spinTopMenu.classList = "spinTopMenu";
-            spinTopMenu.dataset.projectTitle = project;
+            spinTopMenu.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             closeSpinTheater.innerHTML = "X";
             closeSpinTheater.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"closeSpinTheater";
             closeSpinTheater.classList = "closeSpinTheater";
-            closeSpinTheater.dataset.projectTitle = project;
+            closeSpinTheater.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             setResolutionSDBtn.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"SpinsSetResolutionSDBtn";
             setResolutionSDBtn.classList.add("SpinsSetResolutionSDBtn", "resBtns");
             setResolutionSDBtn.innerHTML = "SD";
-            setResolutionSDBtn.dataset.projectTitle = project;
+            setResolutionSDBtn.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             setResolutionHDBtn.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"SpinsSetResolutionHDBtn";
             setResolutionHDBtn.classList.add("SpinsSetResolutionHDBtn", "resBtns");
             setResolutionHDBtn.innerHTML = "HD";
-            setResolutionHDBtn.dataset.projectTitle = project;
+            setResolutionHDBtn.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             const projectSpinAmount = Object.entries(DNA["Sections"][Sections][SubSection][project][content])
             const totalImages = Object.keys(projectSpinAmount).length/2;
             
@@ -144,7 +144,7 @@ function injectDNA() {
             });
             
             projectSpins.classList.add("imageSpins");
-            sectionProject.dataset.projectTitle = project;
+            sectionProject.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             spinTopMenu.appendChild(setResolutionSDBtn);
             spinTopMenu.appendChild(setResolutionHDBtn);
             spinTopMenu.appendChild(closeSpinTheater);
@@ -155,14 +155,27 @@ function injectDNA() {
             sectionProject.appendChild(projectSpins);
             spinLoader(viewer);
 
+          } if (content == `${project}.md`) {
+            const projectTextContentContainer = document.createElement('div');
+            projectTextContentContainer.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"Text";
+            projectTextContentContainer.classList.add("projectText");
+            projectTextContentContainer.classList.add("smooth");
+            projectTextContentContainer.classList.add("notBeingViewed");
+            fetchMarkdown(`Sections/${Sections}/${SubSection}/${project}/${content}`).then(textContent => {
+              projectTextContentContainer.innerHTML = textContent;
+            })
+            
+            sectionProject.appendChild(projectTextContentContainer);
           } if (content === "Image-Gallery") {
             const projectImageGalleryContainer = document.createElement('div');
             const projectImageGalleryViewFinder = document.createElement('div');
             projectImageGalleryContainer.id = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "")+"GalleryContainer";
             projectImageGalleryContainer.classList.add('imageGalleryContainer');
-            projectImageGalleryContainer.dataset.projectTitle = project;
+            projectImageGalleryContainer.classList.add('smooth');
+            projectImageGalleryContainer.classList.add("notBeingViewed");
+            projectImageGalleryContainer.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
             projectImageGalleryViewFinder.classList.add("ImageGalleryViewFinder");
-            projectImageGalleryViewFinder.dataset.projectTitle = project;
+            projectImageGalleryViewFinder.dataset.projectTitle = project.toLowerCase().split('-').map((word, index) => {if (index === 0) return word; return word.charAt(0).toUpperCase() + word.slice(1);}).join('').replace("-", "");
 
             Object.entries(DNA["Sections"][Sections][SubSection][project][content]).forEach(([image]) => {
               const projectImage = document.createElement('img')
@@ -174,14 +187,7 @@ function injectDNA() {
 
           projectImageGalleryContainer.appendChild(projectImageGalleryViewFinder);
           sectionProject.appendChild(projectImageGalleryContainer);
-          } if (content == `${project}.md`) {
-            const projectTextContentContainer = document.createElement('div');
-            fetchMarkdown(`Sections/${Sections}/${SubSection}/${project}/${content}`).then(textContent => {
-              projectTextContentContainer.innerHTML = textContent;
-            })
-            
-            sectionProject.appendChild(projectTextContentContainer);
-          }
+          } 
           
 
           
@@ -192,7 +198,60 @@ function injectDNA() {
     });
   })
 
-   document.querySelectorAll(".threedThumbnail").forEach(el => {
+  document.querySelectorAll(".projectThumbnail").forEach(el => {
+
+    el.addEventListener('click', (e) => {
+    const targetDataset = e.currentTarget.dataset.projectTitle;
+    focusOnProject(el, targetDataset)
+    console.log(targetDataset);
+    })
+    
+    el.addEventListener('pointerover', (e) => {
+            const hiddenThumb = e.target;
+                  hiddenThumb.style.opacity = 1;
+                  //console.log(hiddenThumb)      
+            
+          }) 
+
+    el.addEventListener('pointerout', (e) => {
+      const hiddenThumb = e.target;            
+            hiddenThumb.style.opacity = 0;      
+            
+    })
+
+  })
+
+  function focusOnProject(target, pT){
+
+  document.querySelectorAll(".beingViewed").forEach(el => {
+    if (pT !== el.dataset.projectTitle) {
+          el.classList.remove("beingViewed");
+          el.classList.add("notBeingViewed");
+          el.parentElement.classList.add("idleProject");
+          el.parentElement.classList.remove("goBig");
+    }
+  });
+
+  document.querySelectorAll(".notBeingViewed").forEach(el => {
+      if (pT === el.dataset.projectTitle) {
+          el.classList.add("beingViewed");
+          el.classList.remove("notBeingViewed");
+          el.parentElement.classList.remove("idleProject");
+          el.parentElement.classList.add("goBig");
+          setTimeout(() => {
+              el.parentElement.scrollIntoView({
+              behavior: 'smooth', // Animates the scroll journey smoothly
+              block: 'start'      // Aligns the top of the element to the top of the viewport
+            });
+          }, 350);
+
+      }   
+  })
+
+  
+  }
+
+   /*document.querySelectorAll(".projectThumbnail").forEach(el => {
             
     const targetDataset = el.parentElement.dataset.projectTitle;
     const targetImage = el.firstChild;
@@ -224,7 +283,7 @@ function injectDNA() {
             console.log(projectStates);
           })
         
-          })
+          })*/
 
     document.querySelectorAll(".closeSpinTheater").forEach(el => {
           
